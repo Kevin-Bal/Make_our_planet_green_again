@@ -1,0 +1,27 @@
+
+
+section {
+    background-color: #F2FCE5;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+
+
+
+
+.navbar { 
+    background-color: #003300;
+    font-size: large;
+}
+
+.navbar .navbar-nav .nav-link { 
+    color: #fff; 
+}
+.navbar .navbar-nav .nav-link:hover { 
+    color: #fbc531; 
+}
+.navbar .navbar-nav .active > .nav-link { 
+    color: #fbc531;
+}
