@@ -23,25 +23,40 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand text-white" href="{% url 'plateforme-view-home' %}"><i class="fas fa-globe-americas fa-lg mr-2"></i>Make Our Planet Green Again</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nvbCollapse" aria-controls="nvbCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="nvbCollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item pl-1">
-                            <a class="nav-link" href="{% url 'plateforme-view-home' %}"><i class="fa fa-home fa-fw mr-1"></i>Home</a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item pl-1">
+                        <a class="nav-link" href="{% url 'plateforme-view-home' %}"><i class="fa fa-home fa-fw mr-1"></i>Home</a>
+                    </li>
+                    <li class="nav-item pl-1">
+                        <a class="nav-link" href="{% url 'plateforme-view-projets' %}"><i class="fa fa-th-list fa-fw mr-1"></i>Projet</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="text-white pl-1 mt-2 mr-1">
+                            <i>Bonjour {{ user.username }} !</i>
                         </li>
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="{% url 'plateforme-view-projets' %}"><i class="fa fa-th-list fa-fw mr-1"></i>Projet</a>
+                            <a class="nav-link" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Consulter le profil">
+                                <i class="fas fa-user-circle fa-lg"></i>
+                            </a>
                         </li>
-                        <li class="nav-item pl-1 ml-5">
+                        <li class="nav-item pl-1">
+                            <a class="nav-link" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="bottom" title="Deconnexion">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item pl-1">
                             <a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-tag mr-1"></i>Inscription</a>
                         </li>
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="#"><i class="far fa-user mr-1"></i>Connexion</a>
+                            <a class="nav-link" href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Connexion">
+                                <i class="far fa-user"></i>
+                            </a>
                         </li>
-                    </ul>
-                </div>
+                    {% endif %}
+                </ul>
             </div>
         </nav>
 	</header>
