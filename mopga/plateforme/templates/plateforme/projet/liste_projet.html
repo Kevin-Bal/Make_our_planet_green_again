@@ -2,14 +2,17 @@
 {% block content %}
     <h2 class="row justify-content-center">Liste des projets</h2>
     {% for p in projets %}
-    <div class="card my-2">
-        <div class="card-header">
+    <div class="card my-4">
+        <div class="card-header" style="background-color: #8C9773;">
             <div class="row">
-                <h3>{{ p.titre }}</h3>
-                <div class="mt-2"> - proposé par <i>{{ p.auteur }}</i></div>
+                <h3 class="col-6">{{ p.titre }}</h3>
+                <div class="col-6 text-right"> 
+                    {{ p.auteur }}
+                    <img class="rounded-circle" src="{{ p.auteur.profile.avatar.url }}" width="35">
+                </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color: #CCD2BF;">
             <p class="card-title text-right">{{ p.dateCreation|date:"N d, Y - H\h i:s" }}</p>
             <p class="card-text">{{ p.content }}</p>
             <div class="row">
