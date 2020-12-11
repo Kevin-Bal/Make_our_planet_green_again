@@ -132,3 +132,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'plateforme-view-home'
 LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Pour les deux lignes suivantes, il faut définir deux variables dans l'environnement dans lequel on lance l'application
+#   export EMAIL_USER='votre adresse gmail'
+#   export EMAIL_PASSWORD='le mot de passe associé a l'adresse gmail'
+#       Dans le cas où le compte gmail possède une double authentification, il faut générer un mot de passe d'application
+#       dans les paramètres de votre compte gmail et le copier
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')

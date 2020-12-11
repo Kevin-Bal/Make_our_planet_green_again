@@ -37,17 +37,42 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card mb-3" style="background-color: #CCD2BF;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Mot de passe</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <a href="{% url 'password_reset' %}">Modifier le mot de passe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Informations</legend>
-            {{ u_form|crispy }}
-            {{ p_form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Modifier</button>
-        </div> 
-    </form>
+
+    <div class="row gutters-sm">
+        <div class="col-md-12 mb-3">
+            <div class="card" style="background-color: #CCD2BF;">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4 text-center">Informations</legend>
+                            {{ u_form|crispy }}
+                            {{ p_form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <div class="row justify-content-center">
+                                <button class="btn btn-info" type="submit">Modifier</button>
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endblock content %}
