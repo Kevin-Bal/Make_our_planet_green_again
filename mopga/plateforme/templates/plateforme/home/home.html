@@ -4,9 +4,12 @@
     <hr>
     <div class="row justify-content-center mt-5">
         <h2 class="text-muted text-center">
-            Vous avez une idée pour rendre notre planète meilleure ? N'hésiter plus et proposer votre projet à la communauté !
+            <i class="far fa-lightbulb fa-6x"></i>
+            <p>Vous avez une idée pour rendre notre planète meilleure ? N'hésiter plus et proposer votre projet à la communauté !</p>
         </h2>
-        <a type="button" class="btn btn-lg btn-primary ml-3" href="{% url 'plateforme-view-creer-projet' %}">Proposer un projet</a>
+        <a type="button" class="btn btn-lg btn-primary ml-3" href="{% url 'plateforme-view-creer-projet' %}">
+            Proposer un projet<i class="fas fa-pen-nib ml-2"></i>
+        </a>
     </div>
 
     <hr>
@@ -14,7 +17,9 @@
         <h4 class="text-muted text-center">
             Vous souhaitez consulter ou même participer au financement d'un projet ? N'hésiter pas à regarder les projets existants en cliquant sur le bouton ci-dessous !
         </h4>
-        <a type="button" class="btn btn-primary ml-3" href="{% url 'plateforme-view-projets' %}">Projet existants</a>
+        <a type="button" class="btn btn-primary ml-3" href="{% url 'plateforme-view-projets' %}">
+            Projet existants<i class="fas fa-list ml-2"></i>
+        </a>
     </div>
     
 {% endblock content %}

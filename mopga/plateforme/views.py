@@ -8,13 +8,6 @@ def home(request):
     return render(request, 'plateforme/home/home.html')
 
 
-
-def projets(request):
-    context = {
-        'projets': Projet.objects.all()
-    }
-    return render(request, 'plateforme/projet/liste_projet.html', context)
-
 class ProjetListView(ListView):
     model = Projet
     template_name = 'plateforme/projet/liste_projet.html'
@@ -46,8 +39,8 @@ class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         projet = self.get_object()
         if self.request.user == projet.auteur:
-            return True;
-        return False;
+            return True
+        return False
 
 class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Projet
@@ -57,5 +50,5 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         projet = self.get_object()
         if self.request.user == projet.auteur:
-            return True;
-        return False;
+            return True
+        return False
