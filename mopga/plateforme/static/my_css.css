@@ -1,7 +1,9 @@
 
+body {
+    background-color: #F2FCE5;
+}
 
 section {
-    background-color: #F2FCE5;
     height: 100%;
     width: 100%;
     position: absolute;

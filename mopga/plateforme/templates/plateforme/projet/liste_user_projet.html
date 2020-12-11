@@ -1,11 +1,6 @@
 {% extends 'plateforme/index.html' %}
 {% block content %}
-    <div class="row">
-        <h3 class="col-6">Liste des projets existants</h3>
-        <p class="col-6 text-right text-muted">
-            <a href="{% url 'plateforme-view-creer-projet' %}">Proposer mon projet</a>
-        </p>
-    </div>
+    <h3 class="mb-3">Projet proposé par {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h3>
     <hr>
     {% for p in projets %}
     <div class="card my-4">
@@ -13,7 +8,7 @@
             <div class="row">
                 <h3 class="col-4">{{ p.titre }}</h3>
                 <div class="col-4 mt-1"><p class="card-title text-center">{{ p.dateCreation|date:"N d, Y - H\hi" }}</p></div>
-                <div class="col-4 text-right"> 
+                <div class="col-4 text-right">
                     <a class="text-dark" href="{% url 'plateforme-view-projet-user' p.auteur.username %}">
                         {{ p.auteur }}
                         <img class="rounded-circle" src="{{ p.auteur.profile.avatar.url }}" width="35">
