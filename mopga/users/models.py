@@ -11,8 +11,8 @@ class Profile(models.Model):
         return "{} Profile".format(self.user.username)
 
     # Remplace la méthode par défaut de model.save()
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         
         img = Image.open(self.avatar.path)
 
