@@ -1,0 +1,27 @@
+{% extends 'plateforme/index.html' %}
+{% block content %}
+    <div class="row justify-content-end mx-0 my-2">
+        <a class="btn btn-secondary btn-sm" href="{% url 'plateforme-view-modifier-projet' object.id %}">Modifier</a>
+        <a class="btn btn-danger btn-sm ml-2" href="{% url 'plateforme-view-supprimer-projet' object.id %}">Supprimer</a>
+    </div>
+    <div class="card my-4">
+        <div class="card-header" style="background-color: #8C9773;">
+            <div class="row">
+                <h3 class="col-4">{{ object.titre }}</h3>
+                <div class="col-4 mt-1"><p class="card-title text-center">{{ object.dateCreation|date:"N d, Y - H\hi" }}</p></div>
+                <div class="col-4 text-right"> 
+                    {{ object.auteur }}
+                    <img class="rounded-circle" src="{{ object.auteur.profile.avatar.url }}" width="35">
+                </div>
+            </div>
+        </div>
+        <div class="card-body" style="background-color: #CCD2BF;">
+            <p class="card-text">{{ object.content }}</p>
+            <hr>
+            <div class="row justify-content-center">
+                <a href="#" class="btn btn-primary ml-2">Voter</a>
+                <a href="#" class="btn btn-primary ml-2">Financer</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

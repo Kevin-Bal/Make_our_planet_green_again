@@ -1,4 +1,20 @@
 {% extends 'plateforme/index.html' %}
 {% block content %}
     <h1 class="row justify-content-center">Bienvenue sur la plateforme collaborative !</h1>
+    <hr>
+    <div class="row justify-content-center mt-5">
+        <h2 class="text-muted text-center">
+            Vous avez une idée pour rendre notre planète meilleure ? N'hésiter plus et proposer votre projet à la communauté !
+        </h2>
+        <a type="button" class="btn btn-lg btn-primary ml-3" href="{% url 'plateforme-view-creer-projet' %}">Proposer un projet</a>
+    </div>
+
+    <hr>
+    <div class="row justify-content-center mt-5">
+        <h4 class="text-muted text-center">
+            Vous souhaitez consulter ou même participer au financement d'un projet ? N'hésiter pas à regarder les projets existants en cliquant sur le bouton ci-dessous !
+        </h4>
+        <a type="button" class="btn btn-primary ml-3" href="{% url 'plateforme-view-projets' %}">Projet existants</a>
+    </div>
+    
 {% endblock content %}

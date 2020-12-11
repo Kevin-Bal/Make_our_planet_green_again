@@ -1,26 +1,33 @@
 {% extends 'plateforme/index.html' %}
 {% block content %}
-    <h2 class="row justify-content-center">Liste des projets</h2>
+    <div class="row">
+        <h3 class="col-6">Liste des projets existants</h3>
+        <p class="col-6 text-right text-muted">
+            <a href="{% url 'plateforme-view-creer-projet' %}">Proposer mon projet</a>
+        </p>
+    </div>
+    <hr>
     {% for p in projets %}
     <div class="card my-4">
         <div class="card-header" style="background-color: #8C9773;">
             <div class="row">
-                <h3 class="col-6">{{ p.titre }}</h3>
-                <div class="col-6 text-right"> 
+                <h3 class="col-4">{{ p.titre }}</h3>
+                <div class="col-4 mt-1"><p class="card-title text-center">{{ p.dateCreation|date:"N d, Y - H\hi" }}</p></div>
+                <div class="col-4 text-right"> 
                     {{ p.auteur }}
                     <img class="rounded-circle" src="{{ p.auteur.profile.avatar.url }}" width="35">
                 </div>
             </div>
         </div>
         <div class="card-body" style="background-color: #CCD2BF;">
-            <p class="card-title text-right">{{ p.dateCreation|date:"N d, Y - H\h i:s" }}</p>
             <p class="card-text">{{ p.content }}</p>
-            <div class="row">
-                <a href="#" class="btn btn-primary ml-2">Voter</a>
-                <a href="#" class="btn btn-primary ml-2">Financer</a>
+            <hr>
+            <div class="row justify-content-center">
+                <a href="{% url 'plateforme-view-projet-details' p.id %}" class="btn btn-primary ml-2">
+                    Voir<i class="far fa-eye ml-2"></i>
+                </a>
             </div>
         </div>
     </div>
     {% endfor %}
-
 {% endblock content %}
