@@ -1,9 +1,11 @@
 {% extends 'plateforme/index.html' %}
 {% block content %}
-    <div class="row justify-content-end mx-0 my-2">
-        <a class="btn btn-secondary btn-sm" href="{% url 'plateforme-view-modifier-projet' object.id %}">Modifier</a>
-        <a class="btn btn-danger btn-sm ml-2" href="{% url 'plateforme-view-supprimer-projet' object.id %}">Supprimer</a>
-    </div>
+    {% if object.auteur == user %}
+        <div class="row justify-content-end mx-0 my-2">
+            <a class="btn btn-secondary btn-sm" href="{% url 'plateforme-view-modifier-projet' object.id %}">Modifier</a>
+            <a class="btn btn-danger btn-sm ml-2" href="{% url 'plateforme-view-supprimer-projet' object.id %}">Supprimer</a>
+        </div>
+    {% endif %}
     <div class="card my-4">
         <div class="card-header" style="background-color: #8C9773;">
             <div class="row">
