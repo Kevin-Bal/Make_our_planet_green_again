@@ -15,7 +15,7 @@
             <div class="row">
                 <h3 class="col-4">{{ object.titre }}</h3>
                 <div class="col-4 mt-1"><p class="card-title text-center">{{ object.dateCreation|date:"N d, Y - H\hi" }}</p></div>
-                <div class="col-4 text-right"> 
+                <div class="col-4 text-right">
                     <a class="text-dark" href="{% url 'plateforme-view-projet-user' object.auteur.username %}">
                         {{ object.auteur }}
                         <img class="rounded-circle" src="{{ object.auteur.profile.avatar.url }}" width="35">

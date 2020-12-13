@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -8,7 +9,12 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+
+            # Un utilisateur devient "Porteur" dès qu'il s'inscrit sur la plateforme
+            group = Group.objects.get(name='Porteur')
+            user.groups.add(group)
+
             username = form.cleaned_data.get('username')
             messages.success(request, "Compte créé avec succès pour {} ! Vous pouvez desormais vous connecter !".format(username))
             return redirect('login')

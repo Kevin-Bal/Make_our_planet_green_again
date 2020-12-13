@@ -2,7 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from .models import Projet
+from .decorators import allowed_users
+
+
+# Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "ProjetCreateView"
+decorators_projet_create_view = [login_required, allowed_users(allowed_groups=['Porteur'])]
 
 
 def home(request):
@@ -34,7 +41,8 @@ class ProjetDetailView(DetailView):
     template_name = 'plateforme/projet/detail_projet.html'
 
 
-class ProjetCreateView(LoginRequiredMixin, CreateView):
+@method_decorator(decorators_projet_create_view, name='dispatch')
+class ProjetCreateView(CreateView):
     model = Projet
     template_name = 'plateforme/projet/formulaire_projet.html'
     fields = ['titre','content']
@@ -43,7 +51,7 @@ class ProjetCreateView(LoginRequiredMixin, CreateView):
         form.instance.auteur = self.request.user
         return super().form_valid(form)
 
-
+@method_decorator(allowed_users(allowed_groups=['Porteur']), name='dispatch')
 class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Projet
     template_name = 'plateforme/projet/formulaire_projet.html'
@@ -59,7 +67,7 @@ class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-
+@method_decorator(allowed_users(allowed_groups=['Porteur']), name='dispatch')
 class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Projet
     template_name = 'plateforme/projet/confirmation_suppression_projet.html'
