@@ -1,6 +1,15 @@
 from django.urls import path, include
 from django.views.generic.base import RedirectView
-from .views import home, ProjetListView, ProjetDetailView, ProjetCreateView, ProjetUpdateView, ProjetDeleteView, UserProjetListView
+from .views import (
+    home,
+    ProjetListView,
+    ProjetDetailView, 
+    ProjetCreateView, 
+    ProjetUpdateView, 
+    ProjetDeleteView, 
+    UserProjetListView,
+    EvaluationCreateView,
+)
 
 
 urlpatterns = [
@@ -11,5 +20,6 @@ urlpatterns = [
     path('projet/nouveau', ProjetCreateView.as_view(), name="plateforme-view-creer-projet"),
     path('projet/<int:pk>/modification', ProjetUpdateView.as_view(), name="plateforme-view-modifier-projet"),
     path('projet/<int:pk>/suppression', ProjetDeleteView.as_view(), name="plateforme-view-supprimer-projet"),
+    path('projet/<int:pk>/evaluation', EvaluationCreateView.as_view(), name="plateforme-view-evaluer-projet"),
     path('', RedirectView.as_view(url='home')),
 ]

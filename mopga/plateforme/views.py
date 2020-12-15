@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from .models import Projet
+from django.contrib import messages
+from .models import Projet, Evaluation
 from .decorators import allowed_users
 
 
@@ -39,6 +40,13 @@ class UserProjetListView(ListView):
 class ProjetDetailView(DetailView):
     model = Projet
     template_name = 'plateforme/projet/detail_projet.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
+        context['evaluations'] = Evaluation.objects.filter(projet=projet).order_by('-dateEvaluation')
+        return context
 
 
 @method_decorator(decorators_projet_create_view, name='dispatch')
@@ -78,3 +86,18 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == projet.auteur:
             return True
         return False
+
+
+class EvaluationCreateView(CreateView):
+    model = Evaluation
+    template_name = 'plateforme/projet/evaluation_projet.html'
+    fields = ['note', 'commentaire']
+
+    def form_valid(self, form):
+        form.instance.evaluateur = self.request.user
+        
+        projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
+        form.instance.projet = projet 
+
+        messages.success(self.request, "Merci d'avoir évalué le projet de {} !".format(projet.auteur.username))
+        return super().form_valid(form)
