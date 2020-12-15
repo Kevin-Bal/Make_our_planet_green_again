@@ -6,8 +6,8 @@
             <div class="card" style="background-color: #CCD2BF;">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="{{ user.profile.avatar.url }}" alt="Admin" class="rounded-circle" width="150">
-                        <div class="mt-3">
+                        <img src="{{ user.profile.avatar.url }}" alt="Admin" class="rounded-circle" width="155">
+                        <div class="mt-4">
                             <h4>{{ user.username }}</h4>
                             <p class="text-secondary mb-1">{{ user.email }}</p>
                         </div>
@@ -30,9 +30,15 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <h6 class="mb-0">Rôle</h6>
+                            <h6 class="mb-0">Rôle(s)</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
+                            {% for group in user.groups.all %}
+                                <span>{{ group }} </span>
+                                {% if group != user.groups.all.first %}
+                                    <span> - </span>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -46,6 +52,19 @@
                         </div>
                         <div class="col-sm-9 text-secondary">
                             <a href="{% url 'password_reset' %}">Modifier le mot de passe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3" style="background-color: #CCD2BF;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Mes projets</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <a href="{% url 'plateforme-view-projet-user' user.username %}">Consulter mes projets</a>
                         </div>
                     </div>
                 </div>
