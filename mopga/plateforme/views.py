@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse
 from .models import Projet, Evaluation
 from .decorators import allowed_users
 
@@ -78,7 +79,7 @@ class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 @method_decorator(allowed_users(allowed_groups=['Porteur']), name='dispatch')
 class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Projet
-    template_name = 'plateforme/projet/confirmation_suppression_projet.html'
+    template_name = 'plateforme/projet/confirmation_suppression_evaluation.html'
     success_url = '/projets'
 
     def test_func(self):
@@ -90,7 +91,7 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class EvaluationCreateView(CreateView):
     model = Evaluation
-    template_name = 'plateforme/projet/evaluation_projet.html'
+    template_name = 'plateforme/projet/evaluation/evaluation_projet.html'
     fields = ['note', 'commentaire']
 
     def form_valid(self, form):
@@ -101,3 +102,18 @@ class EvaluationCreateView(CreateView):
 
         messages.success(self.request, "Merci d'avoir évalué le projet de {} !".format(projet.auteur.username))
         return super().form_valid(form)
+
+
+class EvaluationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Evaluation
+    template_name = 'plateforme/projet/evaluation/confirmation_suppression_evaluation.html'
+
+    def get_success_url(self):
+        evaluation = get_object_or_404(Evaluation, pk=self.kwargs.get('pk'))
+        return reverse("plateforme-view-projet-details", kwargs={"pk": evaluation.projet.id})
+
+    def test_func(self):
+        evaluation = self.get_object()
+        if self.request.user == evaluation.evaluateur:
+            return True
+        return False

@@ -9,6 +9,7 @@ from .views import (
     ProjetDeleteView, 
     UserProjetListView,
     EvaluationCreateView,
+    EvaluationDeleteView,
 )
 
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path('projet/<int:pk>/modification', ProjetUpdateView.as_view(), name="plateforme-view-modifier-projet"),
     path('projet/<int:pk>/suppression', ProjetDeleteView.as_view(), name="plateforme-view-supprimer-projet"),
     path('projet/<int:pk>/evaluation', EvaluationCreateView.as_view(), name="plateforme-view-evaluer-projet"),
+    path('evaluation/<int:pk>', EvaluationDeleteView.as_view(), name="plateforme-view-supprimer-evaluation"),
     path('', RedirectView.as_view(url='home')),
 ]

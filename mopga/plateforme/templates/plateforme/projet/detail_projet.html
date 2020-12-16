@@ -32,4 +32,51 @@
             </div>
         </div>
     </div>
+
+    {% if evaluations.count > 0 %}
+        <hr>
+        <h3 class="mb-3">Evaluation(s) ({{ evaluations.count }})</h3>
+
+        {% for eval in evaluations %}
+            <div class="card my-4">
+                <div class="card-body" style="background-color: #CCD2BF;">
+                    <div class="row">
+                        <div class="col-1" >
+                            <a href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                                <img class="rounded-circle" src="{{ eval.evaluateur.profile.avatar.url }}" width="60">
+                            </a>
+                        </div>
+                        <div class="col-10">
+                            <div class="row text-left">
+                                <a class="text-dark" href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                                    <h5>{{ eval.evaluateur.username }}</h5>
+                                </a>
+                                <small class="ml-4"> {{ eval.dateEvaluation|date:"N d, Y - H\hi" }} </small>
+                            </div>
+                            <div class="row">
+                                <h5>
+                                    {% if eval.note <= 3 %}
+                                        <span class="badge badge-danger">{{ eval.note }}/10</span>
+                                    {% elif eval.note >= 7 %}
+                                        <span class="badge badge-success">{{ eval.note }}/10</span>
+                                    {% else %}
+                                        <span class="badge badge-warning">{{ eval.note }}/10</span>
+                                    {% endif %}
+                                </h5>
+                                <span class="ml-3">{{ eval.commentaire}}</span>
+                            </div>
+                        </div>
+                        {% if eval.evaluateur == user %}
+                            <div class="col-1 text-right">
+                                <a class="text-danger" href="{% url 'plateforme-view-supprimer-evaluation' eval.id %}">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    
+    {% endif %}
 {% endblock content %}
