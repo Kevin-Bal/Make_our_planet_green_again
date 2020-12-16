@@ -14,6 +14,9 @@ from .forms import EvaluationForm
 # Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "ProjetCreateView"
 decorators_projet_create_view = [login_required, allowed_users(allowed_groups=['Porteur'])]
 
+# Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "EvaluationCreateView"
+decorators_evaluation_create_view = [login_required, allowed_users(allowed_groups=['Evaluateur'])]
+
 
 def home(request):
     return render(request, 'plateforme/home/home.html')
@@ -61,7 +64,6 @@ class ProjetCreateView(CreateView):
         form.instance.auteur = self.request.user
         return super().form_valid(form)
 
-@method_decorator(allowed_users(allowed_groups=['Porteur']), name='dispatch')
 class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Projet
     template_name = 'plateforme/projet/formulaire_projet.html'
@@ -77,10 +79,9 @@ class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-@method_decorator(allowed_users(allowed_groups=['Porteur']), name='dispatch')
 class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Projet
-    template_name = 'plateforme/projet/confirmation_suppression_evaluation.html'
+    template_name = 'plateforme/projet/confirmation_suppression_projet.html'
     success_url = '/projets'
 
     def test_func(self):
@@ -88,6 +89,10 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == projet.auteur:
             return True
         return False
+
+
+
+
 
 
 class UserEvaluationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -107,6 +112,7 @@ class UserEvaluationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return False
 
 
+@method_decorator(decorators_evaluation_create_view, name='dispatch')
 class EvaluationCreateView(CreateView):
     model = Evaluation
     template_name = 'plateforme/projet/evaluation/evaluation_projet.html'
