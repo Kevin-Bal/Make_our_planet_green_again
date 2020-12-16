@@ -6,7 +6,7 @@ from .views import (
     ProjetDetailView, 
     ProjetCreateView, 
     ProjetUpdateView, 
-    ProjetDeleteView, 
+    ProjetDeleteView,
     UserProjetListView,
     EvaluationCreateView,
     EvaluationDeleteView,

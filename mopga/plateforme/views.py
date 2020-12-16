@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,7 @@ from .models import Projet, Evaluation
 from .decorators import allowed_users
 from .forms import EvaluationForm
 
+NB_PROJETS_DEVENIR_EVALUATEUR = 3
 
 # Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "ProjetCreateView"
 decorators_projet_create_view = [login_required, allowed_users(allowed_groups=['Porteur'])]
@@ -62,6 +63,14 @@ class ProjetCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.auteur = self.request.user
+
+        if not self.request.user.groups.filter(name='Evaluateur').exists():
+            # Lorsque qu'un utilisateur à créé NB_PROJETS_DEVENIR_EVALUATEUR, il devient evaluateur
+            projets = Projet.objects.filter(auteur=form.instance.auteur)
+            if projets.count() + 1 >= NB_PROJETS_DEVENIR_EVALUATEUR:
+                group = Group.objects.get(name='Evaluateur')
+                self.request.user.groups.add(group)
+
         return super().form_valid(form)
 
 class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
