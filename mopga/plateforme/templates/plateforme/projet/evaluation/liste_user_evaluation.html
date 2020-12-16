@@ -1,0 +1,69 @@
+{% extends 'plateforme/index.html' %}
+{% block content %}
+    <h3 class="mb-3">Vos evaluations ({{ page_obj.paginator.count }})</h3>
+    <hr>
+    {% for eval in evaluations %}
+        <div class="card my-4">
+            <div class="card-body" style="background-color: #CCD2BF;">
+                <div class="row">
+                    <div class="col-1" >
+                        <a href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                            <img class="rounded-circle" src="{{ eval.evaluateur.profile.avatar.url }}" width="60">
+                        </a>
+                    </div>
+                    <div class="col-10">
+                        <div class="row text-left">
+                            <a class="text-dark" href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                                <h5>{{ eval.evaluateur.username }}</h5>
+                            </a>
+                            <small class="ml-4"> {{ eval.dateEvaluation|date:"N d, Y - H\hi" }} </small>
+                            <a class="ml-5" href="{% url 'plateforme-view-projet-details' eval.projet.id %}">
+                                Vers le projet évalué<i class="far fa-arrow-alt-circle-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="row">
+                            <h5>
+                                {% if eval.note <= 3 %}
+                                    <span class="badge badge-danger">{{ eval.note }}/10</span>
+                                {% elif eval.note >= 7 %}
+                                    <span class="badge badge-success">{{ eval.note }}/10</span>
+                                {% else %}
+                                    <span class="badge badge-warning">{{ eval.note }}/10</span>
+                                {% endif %}
+                            </h5>
+                            <span class="ml-3">{{ eval.commentaire}}</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-right">
+                        <a class="text-danger" href="{% url 'plateforme-view-supprimer-evaluation' eval.id %}">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+    {% comment %} Pagination {% endcomment %}
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">Page 1</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-less-than"></i></a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} 
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a> 
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}"><i class="fas fa-greater-than"></i></a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Page {{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}

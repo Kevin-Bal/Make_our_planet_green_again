@@ -89,6 +89,23 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+class UserEvaluationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Evaluation
+    template_name = 'plateforme/projet/evaluation/liste_user_evaluation.html'
+    context_object_name = 'evaluations'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Evaluation.objects.filter(evaluateur=user).order_by('-dateEvaluation')
+    
+    def test_func(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        if self.request.user == user:
+            return True
+        return False
+
+
 class EvaluationCreateView(CreateView):
     model = Evaluation
     template_name = 'plateforme/projet/evaluation/evaluation_projet.html'
