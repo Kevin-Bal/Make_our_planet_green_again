@@ -1,6 +1,6 @@
 {% extends 'plateforme/index.html' %}
 {% block content %}
-    <h3 class="mb-3">Vos evaluations ({{ page_obj.paginator.count }})</h3>
+    <h3 class="mb-3">Vos évaluations ({{ page_obj.paginator.count }})</h3>
     <hr>
     {% for eval in evaluations %}
         <div class="card my-4">

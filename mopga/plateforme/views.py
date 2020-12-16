@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.urls import reverse
 from .models import Projet, Evaluation
 from .decorators import allowed_users
+from .forms import EvaluationForm
 
 
 # Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "ProjetCreateView"
@@ -109,7 +110,7 @@ class UserEvaluationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class EvaluationCreateView(CreateView):
     model = Evaluation
     template_name = 'plateforme/projet/evaluation/evaluation_projet.html'
-    fields = ['note', 'commentaire']
+    form_class=EvaluationForm
 
     def form_valid(self, form):
         form.instance.evaluateur = self.request.user
