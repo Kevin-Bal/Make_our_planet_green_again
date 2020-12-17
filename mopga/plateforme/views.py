@@ -130,14 +130,20 @@ class EvaluationCreateView(CreateView):
         projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
         form.instance.projet = projet
 
-        # Mise à jour de la reputation de l'auteur du projet
-        # Il gagne ou perd de la reputation en fonction de la note 
-        # ex : Pour une note de 10, il gagne 5 points, pour 9 il gagne 4 points, ... pour 0 il perd 5 points.
-        points_reputation = form.instance.note - 5; # 5 car la note est sur 10
-        maj_reputation_to_user(projet.auteur, projet.auteur.profile.reputation + points_reputation)
+        # Un utilisateur ne peut pas s'auto evaluer
+        if form.instance.evaluateur != form.instance.projet.auteur:
 
-        messages.success(self.request, "Merci d'avoir évalué le projet de {} !".format(projet.auteur.username))
-        return super().form_valid(form)
+            # Mise à jour de la reputation de l'auteur du projet
+            # Il gagne ou perd de la reputation en fonction de la note 
+            # ex : Pour une note de 10, il gagne 5 points, pour 9 il gagne 4 points, ... pour 0 il perd 5 points.
+            points_reputation = form.instance.note - 5; # 5 car la note est sur 10
+            maj_reputation_to_user(projet.auteur, projet.auteur.profile.reputation + points_reputation)
+
+            messages.success(self.request, "Merci d'avoir évalué le projet de {} !".format(projet.auteur.username))
+            return super().form_valid(form)
+        else:
+            messages.warning(self.request, "Vous ne pouvez pas vous auto-evaluer !")
+            return super().form_invalid(form)
 
 
 class EvaluationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
