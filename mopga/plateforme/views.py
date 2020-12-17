@@ -9,8 +9,9 @@ from django.urls import reverse
 from .models import Projet, Evaluation
 from .decorators import allowed_users
 from .forms import EvaluationForm
+from users.models import Profile
 
-NB_PROJETS_DEVENIR_EVALUATEUR = 3
+NB_POINTS_REPUTATION_CREATION_PROJET = 20;
 
 # Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "ProjetCreateView"
 decorators_projet_create_view = [login_required, allowed_users(allowed_groups=['Porteur'])]
@@ -64,12 +65,8 @@ class ProjetCreateView(CreateView):
     def form_valid(self, form):
         form.instance.auteur = self.request.user
 
-        if not self.request.user.groups.filter(name='Evaluateur').exists():
-            # Lorsque qu'un utilisateur à créé NB_PROJETS_DEVENIR_EVALUATEUR, il devient evaluateur
-            projets = Projet.objects.filter(auteur=form.instance.auteur)
-            if projets.count() + 1 >= NB_PROJETS_DEVENIR_EVALUATEUR:
-                group = Group.objects.get(name='Evaluateur')
-                self.request.user.groups.add(group)
+        # Mise à jour de la reputation de l'auteur
+        maj_reputation_to_user(form.instance.auteur, form.instance.auteur.profile.reputation + NB_POINTS_REPUTATION_CREATION_PROJET)
 
         return super().form_valid(form)
 
@@ -131,7 +128,13 @@ class EvaluationCreateView(CreateView):
         form.instance.evaluateur = self.request.user
         
         projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
-        form.instance.projet = projet 
+        form.instance.projet = projet
+
+        # Mise à jour de la reputation de l'auteur du projet
+        # Il gagne ou perd de la reputation en fonction de la note 
+        # ex : Pour une note de 10, il gagne 5 points, pour 9 il gagne 4 points, ... pour 0 il perd 5 points.
+        points_reputation = form.instance.note - 5; # 5 car la note est sur 10
+        maj_reputation_to_user(projet.auteur, projet.auteur.profile.reputation + points_reputation)
 
         messages.success(self.request, "Merci d'avoir évalué le projet de {} !".format(projet.auteur.username))
         return super().form_valid(form)
@@ -143,6 +146,13 @@ class EvaluationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         evaluation = get_object_or_404(Evaluation, pk=self.kwargs.get('pk'))
+
+        # Mise à jour de la reputation de l'auteur du projet
+        # Il re-gagne ou re-perd de la reputation en fonction de la note qui va être supprimée 
+        # ex : Pour une note de 10, on lui enleve les 5 points, pour 9 on lui enleve 4 points ... pour 0 il lui redonne 5 points.
+        points_reputation = 5 - evaluation.note; # 5 car la note est sur 10
+        maj_reputation_to_user(evaluation.projet.auteur, evaluation.projet.auteur.profile.reputation + points_reputation)
+
         return reverse("plateforme-view-projet-details", kwargs={"pk": evaluation.projet.id})
 
     def test_func(self):
@@ -150,3 +160,18 @@ class EvaluationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == evaluation.evaluateur:
             return True
         return False
+
+
+# Fonction qui met à jour la reputation d'un 'user' 
+# puis qui verifie la condition pour être 'Evaluateur' (reputation > 0)
+def maj_reputation_to_user(user, reputation):
+    Profile.objects.filter(user=user).update(reputation=reputation)
+
+    group = Group.objects.get(name='Evaluateur')
+    if not user.groups.filter(name='Evaluateur').exists():
+        if reputation > 0:
+            user.groups.add(group)
+    else:
+        if reputation <= 0:
+            user.groups.remove(group)
+    

@@ -3,13 +3,31 @@
 {% block content %}
     <div class="row gutters-sm">
         <div class="col-md-4 mb-3">
-            <div class="card" style="background-color: #CCD2BF;">
+            <div class="card mb-3" style="background-color: #CCD2BF;">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="{{ user.profile.avatar.url }}" alt="Admin" class="rounded-circle" width="155">
+                        <img src="{{ user.profile.avatar.url }}" alt="Admin" class="rounded-circle" width="165">
                         <div class="mt-4">
                             <h4>{{ user.username }}</h4>
                             <p class="text-secondary mb-1">{{ user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3" style="background-color: #CCD2BF;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6 class="mb-0 mt-2">Point(s) de réputation</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3>
+                                {% if user.profile.reputation <= 0 %}
+                                    <span class="badge badge-danger">{{ user.profile.reputation }}</span>
+                                {% else %}
+                                    <span class="badge badge-success">{{ user.profile.reputation }}</span>
+                                {% endif %}
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -76,8 +94,17 @@
                             <a href="{% url 'plateforme-view-evaluation-user' user.username %}">Consulter mes évaluations</a>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Mes contributions</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
