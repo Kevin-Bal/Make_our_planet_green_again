@@ -1,0 +1,101 @@
+<div id="carouselPresentationProjet" class="col-12 carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <h3 class="text-center">Le dernier projet financé</h3>
+            <div class="row justify-content-center">
+                <div class="card px-0 col-9">
+                    <div class="card-header" style="background-color: #8C9773;">
+                        <div class="row">
+                            <h3 class="col-4">TITRE</h3>
+                            <div class="col-4 mt-1"><p class="card-title text-center">DATE</p></div>
+                            <div class="col-4 text-right"> 
+                                <a class="text-dark" href="">
+                                    AUTEUR
+                                    <img class="rounded-circle" src="" width="35">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="background-color: #CCD2BF;">
+                        <p class="card-text">CONTENU</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <a href="" class="btn btn-primary px-5">
+                                En savoir plus <i class="far fa-eye ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <h3 class="text-center">Le dernier projet mis en ligne</h3>
+            <div class="row justify-content-center">
+                <div class="card px-0 col-9">
+                    <div class="card-header" style="background-color: #8C9773;">
+                        <div class="row">
+                            <h3 class="col-4">{{ dernier_projet_cree.titre }}</h3>
+                            <div class="col-4 mt-1">
+                                <p class="card-title text-center">{{ dernier_projet_cree.dateCreation|date:"N d, Y - H\hi" }}</p>
+                            </div>
+                            <div class="col-4 text-right"> 
+                                <a class="text-dark" href="{% url 'plateforme-view-projet-user' dernier_projet_cree.auteur.username %}">
+                                    {{ dernier_projet_cree.auteur.username }}
+                                    <img class="rounded-circle" src="{{ dernier_projet_cree.auteur.profile.avatar.url }}" width="35">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="background-color: #CCD2BF;">
+                        <p class="card-text">{{ dernier_projet_cree.content }}</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <a href="{% url 'plateforme-view-projet-details' dernier_projet_cree.id %}" class="btn btn-primary px-5">
+                                En savoir plus <i class="far fa-eye ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <h3 class="text-center">Utilisateur avec le plus de réputation</h3>
+            <div class="row justify-content-center">
+                <div class="card px-0 col-9">
+                    <div class="card-body" style="background-color: #CCD2BF;">
+                        <div class="row">
+                            <div class="col-2" >
+                                <a href="{% url 'plateforme-view-projet-user' profil_best_reputation.user.username %}">
+                                    <img class="rounded-circle" src="{{ profil_best_reputation.avatar.url }}" width="100">
+                                </a>
+                            </div>
+                            <div class="col-10">
+                                <div class="row text-left">
+                                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' profil_best_reputation.user.username %}">
+                                        <h5>{{ profil_best_reputation.user.username }}</h5>
+                                    </a>
+                                </div>
+                                <div class="row mt-3">
+                                    <h4>
+                                        Point de réputation : 
+                                        {% if profil_best_reputation.reputation <= 0 %}
+                                            <span class="badge badge-danger ml-2">{{ profil_best_reputation.reputation }}</span>
+                                        {% else %}
+                                            <span class="badge badge-success ml-2">{{ profil_best_reputation.reputation }}</span>
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev text-dark" href="#carouselPresentationProjet" role="button" data-slide="prev">
+        <i class="fas fa-angle-left fa-3x"></i>
+    </a>
+    <a class="carousel-control-next text-dark" href="#carouselPresentationProjet" role="button" data-slide="next">
+        <i class="fas fa-angle-right fa-3x"></i>
+    </a>
+</div>

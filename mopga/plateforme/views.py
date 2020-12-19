@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Max
 from .models import Projet, Evaluation
 from .decorators import allowed_users
 from .forms import EvaluationForm
@@ -21,7 +22,16 @@ decorators_evaluation_create_view = [login_required, allowed_users(allowed_group
 
 
 def home(request):
-    return render(request, 'plateforme/home/home.html')
+    dernier_projet_cree = Projet.objects.filter().latest("dateCreation")
+    dernier_projet_finance = None # A FAIRE
+    profil_best_reputation = Profile.objects.all().order_by("-reputation").first()
+
+    context = {
+        'dernier_projet_cree': dernier_projet_cree,
+        'dernier_projet_finance': dernier_projet_finance,
+        'profil_best_reputation': profil_best_reputation
+    }
+    return render(request, 'plateforme/home/home.html', context)
 
 
 class ProjetListView(ListView):
