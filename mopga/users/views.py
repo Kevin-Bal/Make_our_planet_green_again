@@ -3,8 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .decorators import check_recaptcha
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
+@check_recaptcha
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)

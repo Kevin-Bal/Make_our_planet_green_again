@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'plateforme.apps.PlateformeConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'captcha',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,3 +145,8 @@ EMAIL_USE_TLS = True
 #       dans les paramètres de votre compte gmail et le copier
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+
+
+# Il faut générer les clé sur le site : https://www.google.com/recaptcha/admin/create
+RECAPTCHA_PUBLIC_KEY = '6LcSswwaAAAAAPDknJKO4CRvaywx7tlPj9GkoLSf'
+RECAPTCHA_PRIVATE_KEY = '6LcSswwaAAAAAALOM5P4-6yA5HpZwW5sycbJSM_y'
