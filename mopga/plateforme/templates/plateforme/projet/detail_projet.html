@@ -10,72 +10,15 @@
             </a>
         </div>
     {% endif %}
-    <div class="card my-4">
-        <div class="card-header" style="background-color: #8C9773;">
-            <div class="row">
-                <h3 class="col-4">{{ object.titre }}</h3>
-                <div class="col-4 mt-1"><p class="card-title text-center">{{ object.dateCreation|date:"N d, Y - H\hi" }}</p></div>
-                <div class="col-4 text-right">
-                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' object.auteur.username %}">
-                        {{ object.auteur }}
-                        <img class="rounded-circle" src="{{ object.auteur.profile.avatar.url }}" width="35">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="card-body" style="background-color: #CCD2BF;">
-            <p class="card-text">{{ object.content }}</p>
-            <hr>
-            <div class="row justify-content-center">
-                <a href="{% url 'plateforme-view-evaluer-projet' object.id %}" class="btn btn-primary ml-2">Evaluer</a>
-                <a href="#" class="btn btn-primary ml-2">Financer</a>
-            </div>
-        </div>
-    </div>
+    
+    {% include 'plateforme/card/card_projet.html' with projet=object page="view_detail_projet" %}
 
     {% if evaluations.count > 0 %}
         <hr>
         <h3 class="mb-3">Evaluation(s) ({{ evaluations.count }})</h3>
 
-        {% for eval in evaluations %}
-            <div class="card my-4">
-                <div class="card-body" style="background-color: #CCD2BF;">
-                    <div class="row">
-                        <div class="col-1" >
-                            <a href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
-                                <img class="rounded-circle" src="{{ eval.evaluateur.profile.avatar.url }}" width="60">
-                            </a>
-                        </div>
-                        <div class="col-10">
-                            <div class="row text-left">
-                                <a class="text-dark" href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
-                                    <h5>{{ eval.evaluateur.username }}</h5>
-                                </a>
-                                <small class="ml-4"> {{ eval.dateEvaluation|date:"N d, Y - H\hi" }} </small>
-                            </div>
-                            <div class="row">
-                                <h5>
-                                    {% if eval.note <= 3 %}
-                                        <span class="badge badge-danger">{{ eval.note }}/10</span>
-                                    {% elif eval.note >= 7 %}
-                                        <span class="badge badge-success">{{ eval.note }}/10</span>
-                                    {% else %}
-                                        <span class="badge badge-warning">{{ eval.note }}/10</span>
-                                    {% endif %}
-                                </h5>
-                                <span class="ml-3">{{ eval.commentaire}}</span>
-                            </div>
-                        </div>
-                        {% if eval.evaluateur == user %}
-                            <div class="col-1 text-right">
-                                <a class="text-danger" href="{% url 'plateforme-view-supprimer-evaluation' eval.id %}">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+        {% for evaluation in evaluations %}
+            {% include 'plateforme/card/card_evaluation.html' with eval=evaluation %}
         {% endfor %}
     
     {% endif %}

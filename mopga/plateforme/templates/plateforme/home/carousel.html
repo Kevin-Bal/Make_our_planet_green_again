@@ -3,58 +3,16 @@
         <div class="carousel-item active">
             <h3 class="text-center">Le dernier projet financé</h3>
             <div class="row justify-content-center">
-                <div class="card px-0 col-9">
-                    <div class="card-header" style="background-color: #8C9773;">
-                        <div class="row">
-                            <h3 class="col-4">TITRE</h3>
-                            <div class="col-4 mt-1"><p class="card-title text-center">DATE</p></div>
-                            <div class="col-4 text-right"> 
-                                <a class="text-dark" href="">
-                                    AUTEUR
-                                    <img class="rounded-circle" src="" width="35">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="background-color: #CCD2BF;">
-                        <p class="card-text">CONTENU</p>
-                        <hr>
-                        <div class="row justify-content-center">
-                            <a href="" class="btn btn-primary px-5">
-                                En savoir plus <i class="far fa-eye ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-9">
+                    {% comment %} {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_finance page="home" %} {% endcomment %}
                 </div>
             </div>
         </div>
         <div class="carousel-item">
             <h3 class="text-center">Le dernier projet mis en ligne</h3>
             <div class="row justify-content-center">
-                <div class="card px-0 col-9">
-                    <div class="card-header" style="background-color: #8C9773;">
-                        <div class="row">
-                            <h3 class="col-4">{{ dernier_projet_cree.titre }}</h3>
-                            <div class="col-4 mt-1">
-                                <p class="card-title text-center">{{ dernier_projet_cree.dateCreation|date:"N d, Y - H\hi" }}</p>
-                            </div>
-                            <div class="col-4 text-right"> 
-                                <a class="text-dark" href="{% url 'plateforme-view-projet-user' dernier_projet_cree.auteur.username %}">
-                                    {{ dernier_projet_cree.auteur.username }}
-                                    <img class="rounded-circle" src="{{ dernier_projet_cree.auteur.profile.avatar.url }}" width="35">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="background-color: #CCD2BF;">
-                        <p class="card-text">{{ dernier_projet_cree.content }}</p>
-                        <hr>
-                        <div class="row justify-content-center">
-                            <a href="{% url 'plateforme-view-projet-details' dernier_projet_cree.id %}" class="btn btn-primary px-5">
-                                En savoir plus <i class="far fa-eye ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-9">
+                    {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_cree page="home" %}
                 </div>
             </div>
         </div>

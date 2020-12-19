@@ -7,30 +7,9 @@
         </p>
     </div>
     <hr>
-    {% for p in projets %}
-    <div class="card my-4">
-        <div class="card-header" style="background-color: #8C9773;">
-            <div class="row">
-                <h3 class="col-4">{{ p.titre }}</h3>
-                <div class="col-4 mt-1"><p class="card-title text-center">{{ p.dateCreation|date:"N d, Y - H\hi" }}</p></div>
-                <div class="col-4 text-right"> 
-                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' p.auteur.username %}">
-                        {{ p.auteur }}
-                        <img class="rounded-circle" src="{{ p.auteur.profile.avatar.url }}" width="35">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="card-body" style="background-color: #CCD2BF;">
-            <p class="card-text">{{ p.content }}</p>
-            <hr>
-            <div class="row justify-content-center">
-                <a href="{% url 'plateforme-view-projet-details' p.id %}" class="btn btn-primary px-5">
-                    En savoir plus <i class="far fa-eye ml-2"></i>
-                </a>
-            </div>
-        </div>
-    </div>
+
+    {% for projet in projets %}
+        {% include 'plateforme/card/card_projet.html' with projet=projet page="view_liste_projet" %}
     {% endfor %}
 
 
