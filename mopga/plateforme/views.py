@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Max
-from .models import Projet, Evaluation
+from .models import Projet, Evaluation, Contribution
 from .decorators import allowed_users
 from .forms import EvaluationForm
 from users.models import Profile
@@ -70,7 +70,7 @@ class ProjetDetailView(DetailView):
 class ProjetCreateView(CreateView):
     model = Projet
     template_name = 'plateforme/projet/formulaire_projet.html'
-    fields = ['titre','content']
+    fields = ['titre','content','montantVoulu']
 
     def form_valid(self, form):
         form.instance.auteur = self.request.user
@@ -83,7 +83,7 @@ class ProjetCreateView(CreateView):
 class ProjetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Projet
     template_name = 'plateforme/projet/formulaire_projet.html'
-    fields = ['titre','content']
+    fields = ['titre','content','montantVoulu']
 
     def form_valid(self, form):
         form.instance.auteur = self.request.user
@@ -191,3 +191,25 @@ def maj_reputation_to_user(user, reputation):
         if reputation <= 0:
             user.groups.remove(group)
     
+
+@method_decorator(decorators_evaluation_create_view, name='dispatch')
+class ContributionCreateView(CreateView):
+    model = Contribution
+    template_name = 'plateforme/projet/contribution/contribution_projet.html'
+    fields = ['montantContribution']
+
+    def form_valid(self, form):
+        form.instance.contributeur = self.request.user
+        projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
+        form.instance.projet = projet
+
+        # Mise à jour de la reputation du contributeur
+        maj_reputation_to_user(form.instance.contributeur, projet.auteur.profile.reputation + 10)
+        # Mise à jour du montant du projet
+        maj_montant_to_projet(projet.id, projet.montant + form.instance.montantContribution)
+
+        messages.success(self.request, "Merci d'avoir contribué de {} au projet de {} !".format(form.instance.montantContribution, projet.auteur.username))
+        return super().form_valid(form)
+
+def maj_montant_to_projet(projetId, montant):
+    Projet.objects.filter(id=projetId).update(montant=montant)
