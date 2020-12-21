@@ -23,13 +23,13 @@
                     <div class="card-body" style="background-color: #CCD2BF;">
                         <div class="row">
                             <div class="col-2" >
-                                <a href="{% url 'plateforme-view-projet-user' profil_best_reputation.user.username %}">
+                                <a href="{% url 'plateforme-view-projets' %}?auteur={{ profil_best_reputation.user.username }}">
                                     <img class="rounded-circle" src="{{ profil_best_reputation.avatar.url }}" width="100">
                                 </a>
                             </div>
                             <div class="col-10">
                                 <div class="row text-left">
-                                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' profil_best_reputation.user.username %}">
+                                    <a class="text-dark" href="{% url 'plateforme-view-projets' %}?auteur={{ profil_best_reputation.user.username }}">
                                         <h5>{{ profil_best_reputation.user.username }}</h5>
                                     </a>
                                 </div>

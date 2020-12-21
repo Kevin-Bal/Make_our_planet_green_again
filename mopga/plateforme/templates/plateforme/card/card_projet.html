@@ -4,7 +4,7 @@
             <h3 class="col-4">{{ projet.titre }}</h3>
             <div class="col-4 mt-1"><p class="card-title text-center">{{ projet.dateCreation|date:"N d, Y - H\hi" }}</p></div>
             <div class="col-4 text-right">
-                <a class="text-dark" href="{% url 'plateforme-view-projet-user' projet.auteur.username %}">
+                <a class="text-dark" href="{% url 'plateforme-view-projets' %}?auteur={{ projet.auteur.username }}">
                     {{ projet.auteur }}
                     <img class="rounded-circle" src="{{ projet.auteur.profile.avatar.url }}" width="35">
                 </a>
