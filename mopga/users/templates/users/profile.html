@@ -29,6 +29,19 @@
                                 {% endif %}
                             </h3>
                         </div>
+                        <div class="col-sm-8">
+                            <hr>
+                        </div>
+                        <div class="col-sm-8">
+                            <h6 class="mb-0 mt-2">Porte monnaie</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3>
+                                <span class="badge badge-success">{{ user.profile.porteMonnaie }}
+                                <img class="mopga-coin" src="/media/mopgaCoin.png" width="25" height="30"/></span>
+                            </h3>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,8 +113,16 @@
                             <h6 class="mb-0">Mes contributions</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
+                            <a href="{% url 'plateforme-view-contribution-user' user.username %}">Consulter mes contributions</a>
                         </div>
                     </div>
+                </div>
+                <div class="card-body">
+                        <div class="form-group">
+                            <div class="row justify-content-center">
+                                <button class="btn btn-info" type="submit">Recharger mon porte monnaie</button>
+                            </div>
+                        </div>
                 </div>
             </div>
             

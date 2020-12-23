@@ -1,0 +1,29 @@
+<div class="card my-4">
+    <div class="card-body" style="background-color: #CCD2BF;">
+        <div class="row">
+            <div class="col-1" >
+                <a href="{% url 'plateforme-view-projet-user' contrib.contributeur.username %}">
+                    <img class="rounded-circle" src="{{ contrib.contributeur.profile.avatar.url }}" width="60">
+                </a>
+            </div>
+            <div class="col-10">
+                <div class="row text-left">
+                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' contrib.contributeur.username %}">
+                        <h5>{{ contrib.contributeur.username }}</h5>
+                    </a>
+                    <small class="ml-4"> {{ contrib.dateContribution|date:"N d, Y - H\hi" }} </small>
+                    {% if page == 'view_user_contributions' %}
+                        <a class="ml-5" href="{% url 'plateforme-view-projet-details' contrib.projet.id %}">
+                            Vers le projet contribué<i class="far fa-arrow-alt-circle-right ml-1"></i>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <h5>
+                        <span class="badge badge-success">{{ contrib.montantContribution }}/{{contrib.projet.montantVoulu}}</span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

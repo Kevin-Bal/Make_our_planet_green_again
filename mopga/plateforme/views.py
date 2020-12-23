@@ -211,5 +211,21 @@ class ContributionCreateView(CreateView):
         messages.success(self.request, "Merci d'avoir contribué de {} au projet de {} !".format(form.instance.montantContribution, projet.auteur.username))
         return super().form_valid(form)
 
+class UserContributionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Contribution
+    template_name = 'plateforme/projet/contribution/liste_user_contribution.html'
+    context_object_name = 'contributions'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Contribution.objects.filter(contributeur=user).order_by('-dateContribution')
+    
+    def test_func(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        if self.request.user == user:
+            return True
+        return False
+
 def maj_montant_to_projet(projetId, montant):
     Projet.objects.filter(id=projetId).update(montant=montant)
