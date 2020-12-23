@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
+from django.utils import timezone
 from django.db.models import Max
 from .models import Projet, Evaluation, Contribution
 from .decorators import allowed_users
@@ -22,8 +23,18 @@ decorators_evaluation_create_view = [login_required, allowed_users(allowed_group
 
 
 def home(request):
-    dernier_projet_cree = Projet.objects.filter().latest("dateCreation")
-    dernier_projet_finance = None # A FAIRE
+    if Projet.objects.all().exists() == True:
+        dernier_projet_cree = Projet.objects.filter().latest("dateCreation")
+
+        if Projet.objects.filter(estFinance=True).exists() == True:
+            dernier_projet_finance = Projet.objects.filter(estFinance=True).latest("dateFinancement")
+        else:
+            dernier_projet_finance = None
+    else:
+        dernier_projet_finance = None  
+        dernier_projet_cree = None
+           
+    
     profil_best_reputation = Profile.objects.all().order_by("-reputation").first()
 
     context = {
@@ -192,8 +203,7 @@ def maj_reputation_to_user(user, reputation):
             user.groups.remove(group)
     
 
-@method_decorator(decorators_evaluation_create_view, name='dispatch')
-class ContributionCreateView(CreateView):
+class ContributionCreateView(LoginRequiredMixin, CreateView):
     model = Contribution
     template_name = 'plateforme/projet/contribution/contribution_projet.html'
     fields = ['montantContribution']
@@ -202,14 +212,27 @@ class ContributionCreateView(CreateView):
         form.instance.contributeur = self.request.user
         projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
         form.instance.projet = projet
+        user = form.instance.contributeur
 
-        # Mise à jour de la reputation du contributeur
-        maj_reputation_to_user(form.instance.contributeur, projet.auteur.profile.reputation + 10)
-        # Mise à jour du montant du projet
-        maj_montant_to_projet(projet.id, projet.montant + form.instance.montantContribution)
+        if form.instance.contributeur.profile.porteMonnaie >=  form.instance.montantContribution:
 
-        messages.success(self.request, "Merci d'avoir contribué de {} au projet de {} !".format(form.instance.montantContribution, projet.auteur.username))
-        return super().form_valid(form)
+            # Mise à jour de la reputation du contributeur
+            maj_reputation_to_user(user, user.profile.reputation + 5)
+            # Mise à jour du porte monnaie du contributeur
+            maj_porteMonnaie_to_user(user, user.profile.porteMonnaie - form.instance.montantContribution)
+            # Mise à jour du montant du projet
+            maj_montant_to_projet(projet.id, projet.montant + form.instance.montantContribution)
+
+            # On ajoute le user dans le groupe des contributeur, seulement si ce dernier ne l'est pas déjà
+            group = Group.objects.get(name='Contributeur')
+            if not user.groups.filter(name='Contributeur').exists():
+                    user.groups.add(group)
+
+            messages.success(self.request, "Merci d'avoir contribué de {} mopga-coin au projet de {} !".format(form.instance.montantContribution, projet.auteur.username))
+            return super().form_valid(form)
+        else :
+            messages.error(self.request, "Le solde de votre porte-monnaie est insufisant !")
+            return super().form_invalid(form)
 
 class UserContributionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Contribution
@@ -227,5 +250,15 @@ class UserContributionListView(LoginRequiredMixin, UserPassesTestMixin, ListView
             return True
         return False
 
+# Cette méthode met à jour le montant du financement et quand ce dernier a atteind le montant voulu met à jour la date de financement
 def maj_montant_to_projet(projetId, montant):
     Projet.objects.filter(id=projetId).update(montant=montant)
+    projet_contribue = Projet.objects.get(id=projetId)
+
+    # On met à jour la date de fianancement du projet quand celui-ci à atteind le montant voulu et qu'il n'a pas encore été financé
+    if projet_contribue.montantVoulu <= projet_contribue.montant and projet_contribue.estFinance == 0 :      
+        #Projet.objects.filter(id=projetId).update(dateFinancement=timezone.now)
+        Projet.objects.filter(id=projetId).update(estFinance=True)
+
+def maj_porteMonnaie_to_user(user, porteMonnaie):
+    Profile.objects.filter(user=user).update(porteMonnaie=porteMonnaie)

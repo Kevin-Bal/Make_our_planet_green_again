@@ -11,6 +11,8 @@ class Projet(models.Model):
     montant = models.IntegerField(default=0)
     montantVoulu = models.IntegerField(default=0)
     dateCreation = models.DateTimeField(default=timezone.now)
+    dateFinancement = models.DateTimeField(default=timezone.now)
+    estFinance = models.BooleanField(default=False)
     auteur = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
