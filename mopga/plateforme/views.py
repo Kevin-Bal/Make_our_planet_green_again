@@ -305,9 +305,12 @@ def maj_montant_to_projet(projetId, montant):
     projet_contribue = Projet.objects.get(id=projetId)
 
     # On met à jour la date de fianancement du projet quand celui-ci à atteind le montant voulu et qu'il n'a pas encore été financé
-    if projet_contribue.montantVoulu <= projet_contribue.montant and projet_contribue.estFinance == 0 :      
-        #Projet.objects.filter(id=projetId).update(dateFinancement=timezone.now)
+    if projet_contribue.montantVoulu <= projet_contribue.montant and projet_contribue.estFinance == 0 :
+        projet_contribue.save()
         Projet.objects.filter(id=projetId).update(estFinance=True)
+        
 
 def maj_porteMonnaie_to_user(user, porteMonnaie):
     Profile.objects.filter(user=user).update(porteMonnaie=porteMonnaie)
+
+

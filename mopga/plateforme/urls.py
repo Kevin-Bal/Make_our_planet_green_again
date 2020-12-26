@@ -18,7 +18,6 @@ from .views import (
 urlpatterns = [
     path('home', home, name="plateforme-view-home"),
     path('projets', ProjetListView.as_view(), name="plateforme-view-projets"),
-    path('utilisateur/<str:username>', UserProjetListView.as_view(), name="plateforme-view-projet-user"),
     path('utilisateur/<str:username>/evaluations', UserEvaluationListView.as_view(), name="plateforme-view-evaluation-user"),
     path('utilisateur/<str:username>/contributions', UserContributionListView.as_view(), name="plateforme-view-contribution-user"),    
     path('projet/<int:pk>', ProjetDetailView.as_view(), name="plateforme-view-projet-details"),
