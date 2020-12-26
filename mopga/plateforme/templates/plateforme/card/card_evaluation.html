@@ -2,13 +2,13 @@
     <div class="card-body" style="background-color: #CCD2BF;">
         <div class="row">
             <div class="col-1" >
-                <a href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                <a href="{% url 'plateforme-view-projets' %}?auteur={{ eval.evaluateur.username }}">
                     <img class="rounded-circle" src="{{ eval.evaluateur.profile.avatar.url }}" width="60">
                 </a>
             </div>
             <div class="col-10">
                 <div class="row text-left">
-                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' eval.evaluateur.username %}">
+                    <a class="text-dark" href="{% url 'plateforme-view-projets' %}?auteur={{ eval.evaluateur.username }}">
                         <h5>{{ eval.evaluateur.username }}</h5>
                     </a>
                     <small class="ml-4"> {{ eval.dateEvaluation|date:"N d, Y - H\hi" }} </small>

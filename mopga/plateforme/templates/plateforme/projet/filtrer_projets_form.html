@@ -1,0 +1,30 @@
+<form class="form-inline" action="{% url 'plateforme-view-projets' %}" method="get" accept-charset="utf-8">
+
+    <div class="form-group">
+        <label for="titre">Titre :</label>
+        <input id="titre" class="form-control ml-1" name="titre" value="{{ filtre_titre }}">
+    </div>
+
+    <div class="form-group ml-3">
+        <label for="auteur">Auteur :</label>
+        <select id="auteur" class="selectpicker" data-live-search="true" name="auteur">
+            <option selected="true" value="Tous">Tous</option>
+            {% for user in users %}
+                {% if user.username == filtre_auteur %}
+                    <option selected="true" value="{{ user.username }}">{{ user.username }}</option>
+                {% else %}
+                    <option value="{{ user.username }}">{{ user.username }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group ml-3">
+        <label for="dateCreation">Date de création : </label>
+        <input type="date" id="dateCreation" class="form-control ml-1" name="dateCreation" value="{{ filtre_date_creation }}">
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary ml-5">
+        Filtrer<i class="fas fa-search ml-2"></i>
+    </button>
+</form>

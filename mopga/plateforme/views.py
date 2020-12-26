@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Max
+from datetime import datetime
+from django.utils.dateparse import parse_date
 from .models import Projet, Evaluation, Contribution
 from .decorators import allowed_users
 from .forms import EvaluationForm
@@ -20,6 +22,7 @@ decorators_projet_create_view = [login_required, allowed_users(allowed_groups=['
 
 # Liste des décorateurs (dans l'ordre) qui faut passer avant d'accéder à la view "EvaluationCreateView"
 decorators_evaluation_create_view = [login_required, allowed_users(allowed_groups=['Evaluateur'])]
+
 
 
 def home(request):
@@ -49,21 +52,67 @@ class ProjetListView(ListView):
     model = Projet
     template_name = 'plateforme/projet/liste_projet.html'
     context_object_name = 'projets'
-    ordering = ['-dateCreation']
     paginate_by = 3
 
-
-class UserProjetListView(ListView):
-    model = Projet
-    template_name = 'plateforme/projet/liste_user_projet.html'
-    context_object_name = 'projets'
-    paginate_by = 3
+    # Variables pour sauvegarder les parametres de l'url pour conserver les filtres à chaque rechargement de la page
+    URL_PARAM_FILTRE_TITRE = ''
+    URL_PARAM_FILTRE_AUTEUR = ''
+    URL_PARAM_FILTRE_DATE_CREATION = ''
 
     def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Projet.objects.filter(auteur=user).order_by('-dateCreation')
-    
+        projets = Projet.objects.all()
 
+        # Application des filtres (+ sauvegarde des filtres) #
+        titre = self.request.GET.get('titre')
+        if titre:
+            self.URL_PARAM_FILTRE_TITRE = titre
+            projets = projets.filter(titre__icontains=titre)
+        else:
+            self.URL_PARAM_FILTRE_TITRE = ''
+
+        username_auteur = self.request.GET.get('auteur')
+        if username_auteur and username_auteur != 'Tous':
+            self.URL_PARAM_FILTRE_AUTEUR = username_auteur
+            auteur =  get_object_or_404(User, username=username_auteur)
+            projets = projets.filter(auteur=auteur)
+        else:
+            self.URL_PARAM_FILTRE_AUTEUR = ''
+
+        date_creation = self.request.GET.get('dateCreation')
+        if date_creation:
+            date = parse_date(date_creation)
+            self.URL_PARAM_FILTRE_DATE_CREATION = date_creation
+            projets = projets.filter(dateCreation__contains=date)
+        else:
+            self.URL_PARAM_FILTRE_DATE_CREATION = ''
+        # Fin application des filtres #
+
+
+        projets = projets.order_by('-dateCreation')
+        return projets
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['users'] = User.objects.all()
+
+        # Recuperation des parametres de l'url pour conserver les filtres à chaque rechargement de la page
+        param_url = "?"
+        if self.URL_PARAM_FILTRE_TITRE != '':
+            param_url += "titre=" + self.URL_PARAM_FILTRE_TITRE + "&"
+        if self.URL_PARAM_FILTRE_AUTEUR != '':
+            param_url += "auteur=" + self.URL_PARAM_FILTRE_AUTEUR + "&"
+        if self.URL_PARAM_FILTRE_DATE_CREATION != '':
+            param_url += "dateCreation=" + self.URL_PARAM_FILTRE_DATE_CREATION + "&"
+        context['parametres_url'] = param_url
+
+        # Permet de pré-remplir les filtres avec les valeurs dans l'url
+        context['filtre_titre'] = self.URL_PARAM_FILTRE_TITRE
+        context['filtre_auteur'] = self.URL_PARAM_FILTRE_AUTEUR
+        context['filtre_date_creation'] = self.URL_PARAM_FILTRE_DATE_CREATION
+
+        return context        
+    
 
 class ProjetDetailView(DetailView):
     model = Projet
