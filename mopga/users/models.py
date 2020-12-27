@@ -7,6 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(default="default.png", upload_to="profile_pics")
     reputation = models.IntegerField(default=0)
+    porteMonnaie =  models.IntegerField(default=500)
 
     def __str__(self):
         return "{} Profile".format(self.user.username)

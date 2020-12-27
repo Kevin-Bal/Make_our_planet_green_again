@@ -8,6 +8,11 @@
             <a class="btn btn-danger btn-sm ml-2" href="{% url 'plateforme-view-supprimer-projet' object.id %}">
                 Supprimer<i class="fas fa-times ml-1"></i>
             </a>
+            {% if object.montantVoulu <= object.montant %}
+                <a class="btn btn-primary btn-sm ml-2" href="{% url 'plateforme-view-cloturer-projet' object.id %}">
+                    Cloturer<i class="fad fa-check ml-1"></i>
+                </a>
+            {% endif %}
         </div>
     {% endif %}
     

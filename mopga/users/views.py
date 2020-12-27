@@ -16,7 +16,7 @@ def register(request):
             # Un utilisateur devient "Porteur" dès qu'il s'inscrit sur la plateforme
             group = Group.objects.get(name='Porteur')
             user.groups.add(group)
-
+            
             username = form.cleaned_data.get('username')
             messages.success(request, "Compte créé avec succès pour {} ! Vous pouvez desormais vous connecter !".format(username))
             return redirect('login')

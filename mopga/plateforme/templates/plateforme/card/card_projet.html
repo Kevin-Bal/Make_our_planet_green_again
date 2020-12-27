@@ -1,3 +1,4 @@
+{% load mathfilters %}
 <div class="card my-4">
     <div class="card-header" style="background-color: #8C9773;">
         <div class="row">
@@ -14,12 +15,21 @@
     <div class="card-body" style="background-color: #CCD2BF;">
         <p class="card-text">{{ projet.content }}</p>
         <hr>
+        <p class="card-montant text-primary">Montant du finacement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
+            
+        <div class="progress">
+                {% with montant=projet.montant montantVoulu=projet.montantVoulu %}  
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ montant|mul:100|intdiv:montantVoulu }}%;" aria-valuenow="{{ montant|mul:100|intdiv:montantVoulu }}" aria-valuemin="0" aria-valuemax="{{ projet.montantVoulu }}">{{ montant|mul:100|intdiv:montantVoulu }}%</div>
+                {% endwith %}
+        </div>
+            
+        <hr>
         <div class="row justify-content-center">
             {% if page == 'view_detail_projet' %}
+                <a href="{% url 'plateforme-view-contribuer-projet' projet.id %}" class="btn btn-primary ml-2">Contribuer</a>
                 <a href="{% url 'plateforme-view-evaluer-projet' projet.id %}" class="btn btn-primary ml-2">
                     Evaluer<i class="fa fa-pencil ml-1" aria-hidden="true"></i>
                 </a>
-                <a href="#" class="btn btn-primary ml-2">Financer</a>
             {% elif page == 'view_liste_projet' or page == 'home' %}
                 <a href="{% url 'plateforme-view-projet-details' projet.id %}" class="btn btn-primary px-5">
                     En savoir plus <i class="far fa-eye ml-2"></i>
