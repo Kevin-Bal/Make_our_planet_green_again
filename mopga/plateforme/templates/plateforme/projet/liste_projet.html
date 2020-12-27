@@ -18,7 +18,8 @@
     {% endfor %}
 
     {% if projets.count <= 0 %}
-        <h5 class="mt-5 text-center">Aucun projet ne correspond aux critères de recherche</h5>
+        <div class="row justify-content-center mt-5"><i class="fa fa-ban fa-6x text-center" aria-hidden="true"></i></div>
+        <h5 class="mt-2 text-center">Aucun projet ne correspond aux critères de recherche</h5>
     {% endif %}
 
 
@@ -41,6 +42,14 @@
             <a class="btn btn-outline-info mb-4" href="{{ parametres_url }}page={{ page_obj.next_page_number }}"><i class="fas fa-greater-than"></i></a>
             <a class="btn btn-outline-info mb-4" href="{{ parametres_url }}page={{ page_obj.paginator.num_pages }}">Page {{ page_obj.paginator.num_pages }}</a>
         {% endif %}
+    {% endif %}
+
+    {% if projets.count > 0 %}
+        <small class="float-right mt-2">
+            <a href="{% url 'rss-projets-news' %}">
+                Flux RSS<i class="fa fa-rss-square ml-1" aria-hidden="true"></i>
+            </a>
+        </small>
     {% endif %}
 
 {% endblock content %}
