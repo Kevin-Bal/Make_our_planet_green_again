@@ -162,12 +162,14 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         projet = self.get_object()
+        if Contribution.objects.filter(projet_id=projet.id).exists():
+            for contribution in Contribution.objects.filter(projet_id=projet.id):
+                user = contribution.contributeur
+                maj_porteMonnaie_to_user(user, user.profile.porteMonnaie + contribution.montantContribution)
+
         if self.request.user == projet.auteur:
             return True
         return False
-
-
-
 
 
 
