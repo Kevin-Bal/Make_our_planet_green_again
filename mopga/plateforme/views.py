@@ -296,7 +296,7 @@ class ContributionCreateView(LoginRequiredMixin, CreateView):
             messages.success(self.request, "Merci d'avoir contribué de {} mopga-coin au projet de {} !".format(form.instance.montantContribution, projet.auteur.username))
             return super().form_valid(form)
         else :
-            messages.error(self.request, "Le solde de votre porte-monnaie est insufisant !")
+            messages.error(self.request, "Le solde de votre porte-monnaie est insuffisant !")
             return super().form_invalid(form)
 
 class UserContributionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
