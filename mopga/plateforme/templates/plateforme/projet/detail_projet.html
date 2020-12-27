@@ -25,6 +25,12 @@
         {% for evaluation in evaluations %}
             {% include 'plateforme/card/card_evaluation.html' with eval=evaluation %}
         {% endfor %}
+
+        <small class="float-right mt-2">
+            <a href="{% url 'rss-evaluations-projets-news' object.id %}">
+                Flux RSS<i class="fa fa-rss-square ml-1" aria-hidden="true"></i>
+            </a>
+        </small>
     
     {% endif %}
 {% endblock content %}
