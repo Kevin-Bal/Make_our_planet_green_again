@@ -12,6 +12,7 @@ from .views import (
     UserEvaluationListView,
     ContributionCreateView,
     UserContributionListView,
+    ProjetCloturerView,
 )
 
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('projet/nouveau', ProjetCreateView.as_view(), name="plateforme-view-creer-projet"),
     path('projet/<int:pk>/modification', ProjetUpdateView.as_view(), name="plateforme-view-modifier-projet"),
     path('projet/<int:pk>/suppression', ProjetDeleteView.as_view(), name="plateforme-view-supprimer-projet"),
+    path('projet/<int:pk>/cloture', ProjetCloturerView.as_view(), name="plateforme-view-cloturer-projet"),
     path('projet/<int:pk>/evaluation', EvaluationCreateView.as_view(), name="plateforme-view-evaluer-projet"),
     path('projet/<int:pk>/contribution', ContributionCreateView.as_view(), name="plateforme-view-contribuer-projet"),
     path('evaluation/<int:pk>', EvaluationDeleteView.as_view(), name="plateforme-view-supprimer-evaluation"),

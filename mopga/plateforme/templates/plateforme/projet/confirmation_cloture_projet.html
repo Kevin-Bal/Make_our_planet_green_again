@@ -1,0 +1,16 @@
+{% extends 'plateforme/index.html' %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Validation du projet</legend>
+                <h2>Êtes-vous sûr de vouloir valider le projet '{{ object.titre }}' ?</h2>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Oui, je suis sûr</button>
+                <a class="btn btn-outline-secondary" href="{% url 'plateforme-view-projet-details' object.id %}">Annuler</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

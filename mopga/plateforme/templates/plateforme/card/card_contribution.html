@@ -2,13 +2,13 @@
     <div class="card-body" style="background-color: #CCD2BF;">
         <div class="row">
             <div class="col-1" >
-                <a href="{% url 'plateforme-view-projet-user' contrib.contributeur.username %}">
+                <a href="{% url 'plateforme-view-projets' %}?auteur={{ contrib.contributeur.username }}">
                     <img class="rounded-circle" src="{{ contrib.contributeur.profile.avatar.url }}" width="60">
                 </a>
             </div>
             <div class="col-10">
                 <div class="row text-left">
-                    <a class="text-dark" href="{% url 'plateforme-view-projet-user' contrib.contributeur.username %}">
+                    <a class="text-dark" href="{% url 'plateforme-view-projets' %}?auteur={{ contrib.contributeur.username }}">
                         <h5>{{ contrib.contributeur.username }}</h5>
                     </a>
                     <small class="ml-4"> {{ contrib.dateContribution|date:"N d, Y - H\hi" }} </small>
@@ -20,7 +20,10 @@
                 </div>
                 <div class="row">
                     <h5>
-                        <span class="badge badge-success">{{ contrib.montantContribution }}/{{contrib.projet.montantVoulu}}</span>
+                        <p>Vous avez contribuer de : </p>
+                        <span class="badge badge-success">{{ contrib.montantContribution }}
+                            <img class="mopga-coin" src="/media/mopgaCoin.png" width="25" height="30"/>
+                        </span>
                     </h5>
                 </div>
             </div>

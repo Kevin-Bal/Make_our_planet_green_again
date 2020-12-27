@@ -162,12 +162,26 @@ class ProjetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         projet = self.get_object()
-        if Contribution.objects.filter(projet_id=projet.id).exists():
-            for contribution in Contribution.objects.filter(projet_id=projet.id):
-                user = contribution.contributeur
-                maj_porteMonnaie_to_user(user, user.profile.porteMonnaie + contribution.montantContribution)
 
         if self.request.user == projet.auteur:
+            if Contribution.objects.filter(projet_id=projet.id).exists():
+                for contribution in Contribution.objects.filter(projet_id=projet.id):
+                    user = contribution.contributeur
+                    maj_porteMonnaie_to_user(user, user.profile.porteMonnaie + contribution.montantContribution)
+            return True
+        return False
+
+class ProjetCloturerView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Projet
+    template_name = 'plateforme/projet/confirmation_cloture_projet.html'
+    success_url = '/projets'
+
+    def test_func(self):
+        projet = self.get_object()
+
+        if self.request.user == projet.auteur:
+            user = projet.auteur
+            maj_porteMonnaie_to_user(user, user.profile.porteMonnaie + projet.montant)  
             return True
         return False
 
