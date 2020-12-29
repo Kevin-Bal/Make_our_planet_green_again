@@ -14,14 +14,22 @@
     </div>
     <div class="card-body" style="background-color: #CCD2BF;">
         <p class="card-text">{{ projet.content }}</p>
+                
+        {% if projet.montantVoulu != 0 %}
         <hr>
         <p class="card-montant text-primary">Montant du finacement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
-            
+        
         <div class="progress">
-                {% with montant=projet.montant montantVoulu=projet.montantVoulu %}  
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ montant|mul:100|intdiv:montantVoulu }}%;" aria-valuenow="{{ montant|mul:100|intdiv:montantVoulu }}" aria-valuemin="0" aria-valuemax="{{ projet.montantVoulu }}">{{ montant|mul:100|intdiv:montantVoulu }}%</div>
+                {% with montant=projet.montant montantVoulu=projet.montantVoulu %}
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" 
+                        style="width: {{ montant|mul:100|intdiv:montantVoulu }}%;" 
+                        aria-valuenow="{{ montant|mul:100|intdiv:montantVoulu }}" 
+                        aria-valuemin="0" aria-valuemax="{{ projet.montantVoulu }}">
+                        {{ montant|mul:100|intdiv:montantVoulu }}%
+                    </div>
                 {% endwith %}
         </div>
+        {% endif %}
             
         <hr>
         <div class="row justify-content-center">

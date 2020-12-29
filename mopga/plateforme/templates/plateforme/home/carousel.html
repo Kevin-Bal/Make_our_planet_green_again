@@ -4,15 +4,23 @@
             <h3 class="text-center">Le dernier projet financé</h3>
             <div class="row justify-content-center">
                 <div class="col-9">
+                {% if dernier_projet_finance != None %}
                     {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_finance page="home" %}  
-                </div>
+                {% else %}
+                    <h5>Aucun projet n'a encore été financé</h5>
+                {% endif %}
+                </h5>
             </div>
         </div>
         <div class="carousel-item">
             <h3 class="text-center">Le dernier projet mis en ligne</h3>
             <div class="row justify-content-center">
                 <div class="col-9">
+                {% if dernier_projet_cree != None %}
                     {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_cree page="home" %}
+                {% else %}
+                    <h5>Aucun projet n'a encore été créé</h5>
+                {% endif %}
                 </div>
             </div>
         </div>
