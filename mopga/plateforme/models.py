@@ -3,13 +3,15 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.shortcuts import redirect
+from django.core.validators import MinValueValidator
+
 
 
 class Projet(models.Model):
     titre = models.CharField(max_length=100)
-    content = models.TextField()
-    montant = models.IntegerField(default=0)
-    montantVoulu = models.IntegerField(default=0)
+    content = models.TextField(verbose_name=('Contenu'))
+    montant = models.PositiveSmallIntegerField(default=0)
+    montantVoulu = models.PositiveSmallIntegerField(default=0, verbose_name=('Montant nécessaire pour démarrer le projet'))
     dateCreation = models.DateTimeField(default=timezone.now)
     dateFinancement = models.DateTimeField(auto_now=True)
     estFinance = models.BooleanField(default=False)
@@ -40,7 +42,7 @@ class Evaluation(models.Model):
 class Contribution(models.Model):
     projet = models.ForeignKey(Projet, on_delete=models.CASCADE)
     contributeur = models.ForeignKey(User, on_delete=models.CASCADE)
-    montantContribution = models.IntegerField(default=0)
+    montantContribution = models.IntegerField(validators=[MinValueValidator(1)],verbose_name=('Montant de la contribution'))
     dateContribution = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
