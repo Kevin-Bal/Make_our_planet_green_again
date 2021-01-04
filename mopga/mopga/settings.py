@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'plateforme.apps.PlateformeConfig',
+    'sendemail.apps.SendemailConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
     'captcha',
