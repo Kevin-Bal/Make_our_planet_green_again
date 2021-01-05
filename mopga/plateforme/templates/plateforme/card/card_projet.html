@@ -17,7 +17,7 @@
                 
         {% if projet.montantVoulu != 0 %}
         <hr>
-        <p class="card-montant text-primary">Montant du finacement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
+        <p class="card-montant text-primary">Montant du financement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
         
         <div class="progress">
                 {% with montant=projet.montant montantVoulu=projet.montantVoulu %}
