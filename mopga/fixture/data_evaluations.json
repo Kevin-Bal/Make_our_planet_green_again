@@ -1,0 +1,1 @@
+[{"model": "plateforme.contribution", "pk": 6, "fields": {"projet": 1, "contributeur": 1, "montantContribution": 5, "dateContribution": "2021-01-03T10:27:36.600Z"}}]
