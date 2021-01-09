@@ -13,8 +13,6 @@ class Projet(models.Model):
     montant = models.PositiveSmallIntegerField(default=0)
     montantVoulu = models.PositiveSmallIntegerField(default=0, verbose_name=('Montant nécessaire pour démarrer le projet'))
     dateCreation = models.DateTimeField(default=timezone.now)
-    dateFinancement = models.DateTimeField(auto_now=True)
-    estFinance = models.BooleanField(default=False)
     auteur = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

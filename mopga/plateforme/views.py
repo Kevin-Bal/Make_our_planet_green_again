@@ -28,21 +28,21 @@ decorators_evaluation_create_view = [login_required, allowed_users(allowed_group
 def home(request):
     if Projet.objects.all().exists() == True:
         dernier_projet_cree = Projet.objects.filter().latest("dateCreation")
-
-        if Projet.objects.filter(estFinance=True).exists() == True:
-            dernier_projet_finance = Projet.objects.filter(estFinance=True).latest("dateFinancement")
-        else:
-            dernier_projet_finance = None
+        
     else:
-        dernier_projet_finance = None  
         dernier_projet_cree = None
-           
     
+    if Contribution.objects.all().exists() == True:
+        derniere_contribution = Contribution.objects.filter().latest("dateContribution")
+        dernier_projet_contribue = Projet.objects.get(id = derniere_contribution.projet_id)
+    else:
+        dernier_projet_contribue = None  
+           
     profil_best_reputation = Profile.objects.all().order_by("-reputation").first()
 
     context = {
         'dernier_projet_cree': dernier_projet_cree,
-        'dernier_projet_finance': dernier_projet_finance,
+        'dernier_projet_contribue': dernier_projet_contribue,
         'profil_best_reputation': profil_best_reputation
     }
     return render(request, 'plateforme/home/home.html', context)
@@ -319,11 +319,6 @@ class UserContributionListView(LoginRequiredMixin, UserPassesTestMixin, ListView
 def maj_montant_to_projet(projetId, montant):
     Projet.objects.filter(id=projetId).update(montant=montant)
     projet_contribue = Projet.objects.get(id=projetId)
-
-    # On met à jour la date de fianancement du projet quand celui-ci à atteind le montant voulu et qu'il n'a pas encore été financé
-    if projet_contribue.montantVoulu <= projet_contribue.montant and projet_contribue.estFinance == 0 :
-        projet_contribue.save()
-        Projet.objects.filter(id=projetId).update(estFinance=True)
         
 
 def maj_porteMonnaie_to_user(user, porteMonnaie):
