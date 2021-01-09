@@ -25,6 +25,7 @@ urlpatterns = [
         name="password_reset_complete"),
     path('flux/rss/', include('rss.urls'), name="rss"),
     path('', include('plateforme.urls')),
+    path('', include('sendemail.urls')), 
 ]
 
 if settings.DEBUG:

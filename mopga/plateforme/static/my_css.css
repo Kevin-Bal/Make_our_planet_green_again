@@ -9,11 +9,21 @@ section {
     position: absolute;
 }
 
+footer {
+	height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
 
 
 
 .navbar { 
     background-color: #003300;
+}
+
+.footerbar { 
+    background-color: #000000;
 }
 
 .navbar .navbar-nav .nav-link { 

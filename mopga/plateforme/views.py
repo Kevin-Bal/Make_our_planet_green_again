@@ -324,4 +324,3 @@ def maj_montant_to_projet(projetId, montant):
 def maj_porteMonnaie_to_user(user, porteMonnaie):
     Profile.objects.filter(user=user).update(porteMonnaie=porteMonnaie)
 
-
