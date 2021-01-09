@@ -17,7 +17,7 @@
                 
         {% if projet.montantVoulu != 0 %}
         <hr>
-        <p class="card-montant text-primary">Montant du finacement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
+        <p class="card-montant text-primary">Montant du financement : {{ projet.montant }}/{{ projet.montantVoulu }}</p>
         
         <div class="progress">
                 {% with montant=projet.montant montantVoulu=projet.montantVoulu %}
@@ -34,7 +34,9 @@
         <hr>
         <div class="row justify-content-center">
             {% if page == 'view_detail_projet' %}
-                <a href="{% url 'plateforme-view-contribuer-projet' projet.id %}" class="btn btn-primary ml-2">Contribuer</a>
+                <a href="{% url 'plateforme-view-contribuer-projet' projet.id %}" class="btn btn-primary ml-2">
+                    Contribuer<i class="fas fa-donate ml-1"></i>
+                </a>
                 <a href="{% url 'plateforme-view-evaluer-projet' projet.id %}" class="btn btn-primary ml-2">
                     Evaluer<i class="fa fa-pencil ml-1" aria-hidden="true"></i>
                 </a>

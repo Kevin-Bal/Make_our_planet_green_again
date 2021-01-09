@@ -1,15 +1,15 @@
 <div id="carouselPresentationProjet" class="col-12 carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <h3 class="text-center">Le dernier projet financé</h3>
+            <h3 class="text-center">Le dernier projet ayant reçu une contribution</h3>
             <div class="row justify-content-center">
                 <div class="col-9">
-                {% if dernier_projet_finance != None %}
-                    {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_finance page="home" %}  
+                {% if dernier_projet_contribue != None %}
+                    {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_contribue page="home" %}  
                 {% else %}
-                    <h5>Aucun projet n'a encore été financé</h5>
+                    <i class="row justify-content-center mt-5">Aucun projet n'a encore été contribué</i>
                 {% endif %}
-                </h5>
+                </div>
             </div>
         </div>
         <div class="carousel-item">
@@ -19,7 +19,7 @@
                 {% if dernier_projet_cree != None %}
                     {% include 'plateforme/card/card_projet.html' with projet=dernier_projet_cree page="home" %}
                 {% else %}
-                    <h5>Aucun projet n'a encore été créé</h5>
+                    <i class="row justify-content-center mt-5">Aucun projet n'a encore été créé</i>
                 {% endif %}
                 </div>
             </div>
