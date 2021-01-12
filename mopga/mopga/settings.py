@@ -151,5 +151,5 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 
 # Il faut générer les clé sur le site : https://www.google.com/recaptcha/admin/create
-RECAPTCHA_PUBLIC_KEY = '6LcSswwaAAAAAPDknJKO4CRvaywx7tlPj9GkoLSf'
-RECAPTCHA_PRIVATE_KEY = '6LcSswwaAAAAAALOM5P4-6yA5HpZwW5sycbJSM_y'
+RECAPTCHA_PUBLIC_KEY = '6LelkSkaAAAAAHBojO9Q9MhLn4LPwKOD1U86p5l5'
+RECAPTCHA_PRIVATE_KEY = '6LelkSkaAAAAAB4eRauf-YulmSUoN52O2wS6QbjV'
