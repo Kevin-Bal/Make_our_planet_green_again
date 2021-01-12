@@ -123,6 +123,7 @@ class ProjetDetailView(DetailView):
 
         projet = get_object_or_404(Projet, pk=self.kwargs.get('pk'))
         context['evaluations'] = Evaluation.objects.filter(projet=projet).order_by('-dateEvaluation')
+        context['contributions'] = Contribution.objects.filter(projet=projet).order_by('-dateContribution')
         return context
 
 

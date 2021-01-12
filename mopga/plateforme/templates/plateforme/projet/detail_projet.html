@@ -33,4 +33,13 @@
         </small>
     
     {% endif %}
+    {% if contributions.count > 0 %}
+        <hr>
+        <h3 class="mb-3">Contribution(s) ({{ contributions.count }})</h3>
+
+        {% for contribution in contributions %}
+            {% include 'plateforme/card/card_contribution.html' with contrib=contribution %}
+        {% endfor %}
+    
+    {% endif %}
 {% endblock content %}
