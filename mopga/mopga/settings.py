@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'plateforme.apps.PlateformeConfig',
     'sendemail.apps.SendemailConfig',
     'users.apps.UsersConfig',
+    'mentionslegales.apps.MentionslegalesConfig',
     'crispy_forms',
     'captcha',
     'mathfilters',

@@ -86,14 +86,22 @@
             {% endif %}
             {% block content %}{% endblock %}
         </div>
-        <footer>
-            <nav class="navbar navbar-expand-lg">
-                <div class="container">
-                    <a class="navbar-brand text-white" href="{% url 'contact' %}">Contact</a>
-                </div>
-            </nav>
-        </footer>
-    </section>	
+    </section>
+
+    <footer>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <ul class="navbar-nav">
+                    <li class="nav-item pl-1">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item pl-2">
+                        <a class="nav-link" href="{% url 'mentions-legales' %}">Crédit & Mentions Légales</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </footer>
     
   </body>
 </html>
