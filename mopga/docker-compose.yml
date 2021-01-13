@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+       MYSQL_HOST: ''
+       MYSQL_DATABASE: 'mopga_db'
+       MYSQL_USER: 'djangoadmin'
+       MYSQL_PASSWORD: 'django'
+       MYSQL_ROOT_PASSWORD: 'django'
+    volumes:
+      - /var/lib/mysql
+  web:
+    build: .
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000 
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: 'djangoadmin'
+      WORDPRESS_DB_PASSWORD: 'django'
+      WORDPRESS_DB_NAME: 'django'
+    volumes:
+      - .:/app
+      - /tmp/app/mysqld:/run/mysqld
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+

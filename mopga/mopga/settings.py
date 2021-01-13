@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'mopga.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mopga_db',
         'USER': 'djangoadmin',
         'PASSWORD': 'django',
-        'NAME': 'mopga_db',
-        'HOST':'',
+        'PORT': '3306',   
     }
 }
 
