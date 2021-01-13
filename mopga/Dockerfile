@@ -1,7 +1,13 @@
-FROM python:3.8
-ENV PYTHONUNBUFFERED 1
-WORKDIR /app
-COPY requirements.txt /app/requirements.txt
-RUN pip install -r requirements.txt
-COPY . /app
+# Utilisez python 3.7 comme image parente
+FROM python:3.7
 
+# Définissez /app comme le répertoire de travail
+WORKDIR /app
+
+# Copiez le contenu du répertoire local dans /app au sein du conteneur
+ADD . /app
+
+# Installez les packages spécifiés dans requirements.txt dans le conteneur
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+COPY . /app

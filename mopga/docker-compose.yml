@@ -18,11 +18,6 @@ services:
     build: .
     restart: always
     command: python manage.py runserver 0.0.0.0:8000 
-    environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: 'djangoadmin'
-      WORDPRESS_DB_PASSWORD: 'django'
-      WORDPRESS_DB_NAME: 'django'
     volumes:
       - .:/app
       - /tmp/app/mysqld:/run/mysqld
