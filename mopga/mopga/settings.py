@@ -137,18 +137,27 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'plateforme-view-home'
 LOGIN_URL = 'login'
 
+
+########################
+
+# Configuration Email
+
+SERVER_EMAIL = 'mopga@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'cbykevin@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'tvvwphdoiwxsnfas'
+EMAIL_HOST_USER = SERVER_EMAIL
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# Pour les deux lignes suivantes, il faut définir deux variables dans l'environnement dans lequel on lance l'application
-#   export EMAIL_USER='votre adresse gmail'
-#   export EMAIL_PASSWORD='le mot de passe associé a l'adresse gmail'
-#       Dans le cas où le compte gmail possède une double authentification, il faut générer un mot de passe d'application
-#       dans les paramètres de votre compte gmail et le copier
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+ADMINS = [
+    ('Mopga', 'mopga@gmail.com'),
+]
+
+MANAGERS = ADMINS
+
+########################
 
 # Il faut générer les clé sur le site : https://www.google.com/recaptcha/admin/create
 RECAPTCHA_PUBLIC_KEY = '6LelkSkaAAAAAHBojO9Q9MhLn4LPwKOD1U86p5l5'

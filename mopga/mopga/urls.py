@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from users import views as user_views
 from mentionslegales import views as mentionslegales_views
+from users.views import reloadPM
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('password-reset-complete/',  
         auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), 
         name="password_reset_complete"),
+    path('porte-monnaie-reload/', reloadPM, name="porte_monnaie_reload"),
     path('flux/rss/', include('rss.urls'), name="rss"),
     path('', include('plateforme.urls')),
     path('', include('sendemail.urls')), 

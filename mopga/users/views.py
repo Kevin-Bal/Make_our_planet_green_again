@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .decorators import check_recaptcha
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ProfileUpdatePorteMonnaie
 
 @check_recaptcha
 def register(request):
@@ -46,3 +46,21 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+@login_required
+def reloadPM(request):
+    if request.method == 'POST':
+        p_form = ProfileUpdatePorteMonnaie(request.POST, request.FILES, instance=request.user.profile)
+
+        if p_form.is_valid():
+            p_form.save()
+            messages.success(request, "Porte monnaie reachargé !")
+            return redirect('profile')
+    else:
+        p_form = ProfileUpdatePorteMonnaie(instance=request.user.profile)
+
+    context = {
+        'p_form': p_form
+    }
+
+    return render(request, 'users/porte_monnaie_reload.html', context)
