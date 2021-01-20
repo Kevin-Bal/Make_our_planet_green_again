@@ -33,10 +33,10 @@
                             <hr>
                         </div>
                         <div class="col-sm-8">
-                            <h6 class="mb-0 mt-2">Porte monnaie</h6>
+                            <h6 class="mb-0 mt-2">Porte-monnaie</h6>
                         </div>
                         <div class="col-sm-4">
-                            <h3>
+                            <h3 class="mb-0">
                                 <span class="badge badge-success">{{ user.profile.porteMonnaie }}
                                 <img class="mopga-coin" src="/media/mopgaCoin.png" width="25" height="30"/></span>
                             </h3>
@@ -116,14 +116,12 @@
                             <a href="{% url 'plateforme-view-contribution-user' user.username %}">Consulter mes contributions</a>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <a class="btn btn-info" href="{% url 'porte_monnaie_reload' %}">Recharger mon porte-monnaie</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                        <div class="form-group">
-                            <div class="row justify-content-center">
-                                <a class="btn btn-info" href="{% url 'porte_monnaie_reload' %}">Recharger mon porte monnaie</a>
-                            </div>
-                        </div>
-                </div>
+                
             </div>
             
         </div>

@@ -159,6 +159,6 @@ MANAGERS = ADMINS
 
 ########################
 
-# Il faut générer les clé sur le site : https://www.google.com/recaptcha/admin/create
+# Il faut générer les clés sur le site : https://www.google.com/recaptcha/admin/create
 RECAPTCHA_PUBLIC_KEY = '6LelkSkaAAAAAHBojO9Q9MhLn4LPwKOD1U86p5l5'
 RECAPTCHA_PRIVATE_KEY = '6LelkSkaAAAAAB4eRauf-YulmSUoN52O2wS6QbjV'
