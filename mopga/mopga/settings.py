@@ -142,7 +142,7 @@ LOGIN_URL = 'login'
 
 # Configuration Email
 
-SERVER_EMAIL = 'mopga@gmail.com'
+SERVER_EMAIL = 'balavoine.kevin@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_PASSWORD = 'tvvwphdoiwxsnfas'
@@ -152,7 +152,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ADMINS = [
-    ('Mopga', 'mopga@gmail.com'),
+    ('Kevin', 'balavoine.kevin@gmail.com'),
 ]
 
 MANAGERS = ADMINS
